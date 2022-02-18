@@ -1,0 +1,16 @@
+﻿@page "/destination"
+ <BodyElement CssClass="destination" />
+ <main id="main" class="grid-container grid-container--destination">
+      <NumberedTitle TitleNumber=1>Pick your destination</NumberedTitle>
+  
+
+    @foreach(SpaceDestination location in Destinations)
+    {
+        if(location.Active) {
+            <DestinationInfo SpaceDestination=@location/>
+        }
+    }
+    
+
+ </main>
+
