@@ -8,16 +8,16 @@
             bool IsVisible = destination.Index == targetPanel;
         if (IsVisible)
         {
-            <img class="@(!IsVisible? "hidden": "")" src="@destination.Image" id="@destination.Name.ToLower()-image" alt="@destination.ImageAlt">
+            <img src="@destination.Image" id="@destination.Name.ToLower()-image" alt="@destination.ImageAlt">
 
             <div role="tablist" @onkeydown="ChangeTabFocus" class="tab-list underline-indicators flex">
                 @foreach (SpaceDestination tab in Destinations)
                 {
-                    <button @onclick="() => ChangeTabPanel(tab.Index)"  aria-selected="@(tabPosition == tab.Index ? "true" : "false")" role="tab" tabindex="@(tabPosition == tab.Index ? 0 : -1)" aria-controls="@tab.Name.ToLower()-tab" data-image="@tab.Name.ToLower()-image"  class="uppercase text-accent letter-spacing-2 ff-sans-cond">@tab.Name</button>
+                    <button @onclick="() => ChangeTabPanel(tab.Index)"  aria-selected="@(tabPosition == tab.Index ? "true" : "false")" role="tab" tabindex="0" aria-controls="@tab.Name.ToLower()-tab" data-image="@tab.Name.ToLower()-image"  class="uppercase text-accent letter-spacing-2 ff-sans-cond">@tab.Name</button>
                 }
             </div>
 
-            <article  class="destination-info flow @(!IsVisible ? "hidden": "")" id="@destination.Name.ToLower()-tab" role="tabpanel"  tabindex="@(IsVisible ? 0 : -1)">
+            <article  class="destination-info flow"  id="@destination.Name.ToLower()-tab" role="tabpanel"  tabindex="0">
                 <h2 class="fs-800 ff-serif uppercase">@destination.Name</h2>
                 <p>@destination.Description</p>
                 <div class="destination-meta flex">

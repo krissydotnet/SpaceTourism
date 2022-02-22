@@ -1,19 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Components;
-using System.Net.Http;
-using System.Net.Http.Json;
-using Microsoft.AspNetCore.Components.Forms;
-using Microsoft.AspNetCore.Components.Routing;
 using Microsoft.AspNetCore.Components.Web;
-using Microsoft.AspNetCore.Components.Web.Virtualization;
-using Microsoft.AspNetCore.Components.WebAssembly.Http;
-using Microsoft.JSInterop;
-using SpaceTourism;
-using SpaceTourism.Shared;
-using SpaceTourism.Components;
 using SpaceTourism.Models;
 
 namespace SpaceTourism.Pages
@@ -29,7 +14,8 @@ namespace SpaceTourism.Pages
 
         int tabPosition = 0;
         int targetPanel = 0;
-        
+
+
 
         private void ChangeTabFocus(KeyboardEventArgs e)
         {
@@ -59,6 +45,8 @@ namespace SpaceTourism.Pages
             tabPosition = index;
             targetPanel = tabPosition;
         }
+
+
 
     }
 }
