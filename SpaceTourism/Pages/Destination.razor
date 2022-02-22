@@ -6,13 +6,14 @@
         @foreach(SpaceDestination destination in Destinations)
         { 
             bool IsVisible = destination.Index == targetPanel;
-
+        if (IsVisible)
+        {
             <img class="@(!IsVisible? "hidden": "")" src="@destination.Image" id="@destination.Name.ToLower()-image" alt="@destination.ImageAlt">
-             
+
             <div role="tablist" @onkeydown="ChangeTabFocus" class="tab-list underline-indicators flex">
-                @foreach(SpaceDestination tab in Destinations)
-                { 
-                   <button @onclick="() => ChangeTabPanel(tab.Index)"  aria-selected="@(tabPosition == tab.Index ? "true" : "false")" role="tab" tabindex="@(tabPosition == tab.Index ? 0 : -1)" aria-controls="@tab.Name.ToLower()-tab" data-image="@tab.Name.ToLower()-image"  class="uppercase text-accent letter-spacing-2 ff-sans-cond">@tab.Name</button>
+                @foreach (SpaceDestination tab in Destinations)
+                {
+                    <button @onclick="() => ChangeTabPanel(tab.Index)"  aria-selected="@(tabPosition == tab.Index ? "true" : "false")" role="tab" tabindex="@(tabPosition == tab.Index ? 0 : -1)" aria-controls="@tab.Name.ToLower()-tab" data-image="@tab.Name.ToLower()-image"  class="uppercase text-accent letter-spacing-2 ff-sans-cond">@tab.Name</button>
                 }
             </div>
 
@@ -30,6 +31,7 @@
                 </div>
                 </div>
             </article>
+            }
     }
    
     

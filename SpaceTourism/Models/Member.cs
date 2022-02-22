@@ -1,6 +1,7 @@
 ﻿namespace SpaceTourism.Models { 
     public class Member
     {
+
         public int Index { get; set; }
         public string Name { get; set; }
 
@@ -13,7 +14,7 @@
 
         public string ToTag()
         {
-            return Title.Replace("", "-");
+            return Title.Replace(" ", "-");
         }
     }
 }

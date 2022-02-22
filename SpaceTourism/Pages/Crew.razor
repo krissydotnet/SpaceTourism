@@ -8,7 +8,7 @@
     @foreach(Member crewmember in CrewMembers)
     {
         bool IsVisible = crewmember.Index == targetPanel;
-
+        if(IsVisible) {
         <div role="tablist" @onkeydown="ChangeTabFocus" aria-label="crew member list" class="dot-indicators flex">
                 @foreach(Member tab in CrewMembers)
                 { 
@@ -27,7 +27,7 @@
         <div class="images" >
             <img class="@(!IsVisible? "hidden": "")" src="@crewmember.Image"  alt="@crewmember.ImageAlt"/>
         </div>
-
+        }
     }
    
   </main>
@@ -65,35 +65,35 @@
 
 
 
-        private void ChangeTabFocus(KeyboardEventArgs e)
+    private void ChangeTabFocus(KeyboardEventArgs e)
+    {
+        if (e.Key == "ArrowRight" )
         {
-            if (e.Key == "ArrowRight" )
+            tabPosition++;
+            if(tabPosition >= CrewMembers.Count)
             {
-                 tabPosition++;
-                if(tabPosition >= CrewMembers.Count)
-                {
-                    tabPosition = 0;
-                    
-                }
-            } else if(e.Key == "ArrowLeft") {
-                tabPosition--;
-                if(tabPosition < 0)
-                {
-                    tabPosition = CrewMembers.Count - 1;
-                }
+                tabPosition = 0;
+
             }
-
-            targetPanel = tabPosition;
-            
+        } else if(e.Key == "ArrowLeft") {
+            tabPosition--;
+            if(tabPosition < 0)
+            {
+                tabPosition = CrewMembers.Count - 1;
+            }
         }
 
-        private void ChangeTabPanel(int index)
-        {
-            
-            tabPosition = index;
-            targetPanel = tabPosition;
-        }
+        targetPanel = tabPosition;
 
-       
+    }
+
+    private void ChangeTabPanel(int index)
+    {
+
+        tabPosition = index;
+        targetPanel = tabPosition;
+    }
+
+   
 
   }
