@@ -13,7 +13,6 @@
 
         public string Travel { get; set; }
 
-        public bool Active { get; set; }
 
 
     }

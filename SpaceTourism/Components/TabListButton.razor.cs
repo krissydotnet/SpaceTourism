@@ -9,5 +9,8 @@ namespace SpaceTourism.Components
 
         [Parameter]
         public bool Active { get; set; }
+
+        [Parameter]
+        public int Index { get; set; }
     }
 }

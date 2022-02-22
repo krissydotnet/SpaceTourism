@@ -2,131 +2,37 @@
  <BodyElement CssClass="destination" />
  <main id="main" class="grid-container grid-container--destination flow">
       <NumberedTitle TitleNumber=1>Pick your destination</NumberedTitle>
-  
 
-@*    @foreach(SpaceDestination location in Destinations)
-    {
-        if(location.Active) {
-            <DestinationInfo SpaceDestination=@location/>
-        }
-    }*@
-            @foreach(SpaceDestination destination in Destinations)
-        { 
-            <img class="@(destination.Index != targetPanel? "hidden": "")" src="@destination.Image" id="@destination.Name.ToLower()-image" alt="@destination.ImageAlt">
-        }
-    <div role="tablist" @onkeydown="ChangeTabFocus" class="tab-list underline-indicators flex">
         @foreach(SpaceDestination destination in Destinations)
         { 
-                    <button @onclick="args => ChangeTabPanel(destination.Index, args)"  aria-selected="@(tabPosition == destination.Index ? "true" : "false")" role="tab" tabindex="@(tabPosition == destination.Index ? 0 : -1)" aria-controls="@destination.Name.ToLower()-tab" data-image="@destination.Name.ToLower()-image"  class="uppercase text-accent letter-spacing-2 ff-sans-cond">@destination.Name</button>
-        }
-    </div>
-    @foreach(SpaceDestination destination in Destinations)
-    {
-        bool IsVisible = destination.Index == targetPanel;
+            bool IsVisible = destination.Index == targetPanel;
 
-        <article  class="destination-info flow @(!IsVisible ? "hidden": "")" id="@destination.Name.ToLower()-tab" role="tabpanel"  tabindex="@(IsVisible ? 0 : -1)">
-        <h2 class="fs-800 ff-serif uppercase">@destination.Name</h2>
-        
-    
-        <p>@destination.Description</p>
+            <img class="@(!IsVisible? "hidden": "")" src="@destination.Image" id="@destination.Name.ToLower()-image" alt="@destination.ImageAlt">
+             
+            <div role="tablist" @onkeydown="ChangeTabFocus" class="tab-list underline-indicators flex">
+                @foreach(SpaceDestination tab in Destinations)
+                { 
+                   <button @onclick="() => ChangeTabPanel(tab.Index)"  aria-selected="@(tabPosition == tab.Index ? "true" : "false")" role="tab" tabindex="@(tabPosition == tab.Index ? 0 : -1)" aria-controls="@tab.Name.ToLower()-tab" data-image="@tab.Name.ToLower()-image"  class="uppercase text-accent letter-spacing-2 ff-sans-cond">@tab.Name</button>
+                }
+            </div>
 
-        <div class="destination-meta flex">
-        <div>
-            <h3 class="text-accent fs-200 uppercase">Avg. Distance</h3>
-            <p class="ff-serif uppercase">@destination.Distance</p>
-        </div>
-        <div>
-            <h3 class="text-accent fs-200 uppercase">Est. travel time</h3>
-            <p class="ff-serif uppercase">@destination.Travel</p>
-        </div>
-        </div>
-    </article>
+            <article  class="destination-info flow @(!IsVisible ? "hidden": "")" id="@destination.Name.ToLower()-tab" role="tabpanel"  tabindex="@(IsVisible ? 0 : -1)">
+                <h2 class="fs-800 ff-serif uppercase">@destination.Name</h2>
+                <p>@destination.Description</p>
+                <div class="destination-meta flex">
+                <div>
+                    <h3 class="text-accent fs-200 uppercase">Avg. Distance</h3>
+                    <p class="ff-serif uppercase">@destination.Distance</p>
+                </div>
+                <div>
+                    <h3 class="text-accent fs-200 uppercase">Est. travel time</h3>
+                    <p class="ff-serif uppercase">@destination.Travel</p>
+                </div>
+                </div>
+            </article>
     }
    
-    <!-- Moon -->
-    <article hidden class="destination-info flow" id="moon-tab" role="tabpanel"  tabindex="@(targetPanel == 0 ? 0 : -1)">
-        <h2 class="fs-800 ff-serif uppercase">Moon</h2>
-        
     
-        <p>See our planet as you’ve never seen it before. A perfect relaxing trip away to help 
-        regain perspective and come back refreshed. While you’re there, take in some history 
-        by visiting the Luna 2 and Apollo 11 landing sites.</p>
-
-        <div class="destination-meta flex">
-        <div>
-            <h3 class="text-accent fs-200 uppercase">Avg. Distance</h3>
-            <p class="ff-serif uppercase">384,400 km</p>
-        </div>
-        <div>
-            <h3 class="text-accent fs-200 uppercase">Est. travel time</h3>
-            <p class="ff-serif uppercase">3 days</p>
-        </div>
-        </div>
-    </article>
-
-    <!-- Mars -->
-    <article hidden class="destination-info flow" id="mars-tab" role="tabpanel"  tabindex="@(targetPanel == 1 ? 0 : -1)">
-        <h2 class="fs-800 ff-serif uppercase">Mars</h2>
-        
-    
-        <p>Don’t forget to pack your hiking boots. You’ll need them to tackle Olympus Mons, 
-            the tallest planetary mountain in our solar system. It’s two and a half times 
-            the size of Everest!.</p>
-
-        <div class="destination-meta flex">
-        <div>
-            <h3 class="text-accent fs-200 uppercase">Avg. Distance</h3>
-            <p class="ff-serif uppercase">225 mil. km</p>
-        </div>
-        <div>
-            <h3 class="text-accent fs-200 uppercase">Est. travel time</h3>
-            <p class="ff-serif uppercase">9 months</p>
-        </div>
-        </div>
-
-        <!-- Europa -->
-    </article>
-    <article hidden class="destination-info flow" id="europa-tab" role="tabpanel"  tabindex="@(targetPanel == 1 ? 0 : -1)">
-        <h2 class="fs-800 ff-serif uppercase">Europa</h2>
-        
-    
-        <p> The smallest of the four Galilean moons orbiting Jupiter, Europa is a 
-            winter lover’s dream. With an icy surface, it’s perfect for a bit of 
-            ice skating, curling, hockey, or simple relaxation in your snug 
-            wintery cabin.</p>
-
-        <div class="destination-meta flex">
-        <div>
-            <h3 class="text-accent fs-200 uppercase">Avg. Distance</h3>
-            <p class="ff-serif uppercase">628 mil. km</p>
-        </div>
-        <div>
-            <h3 class="text-accent fs-200 uppercase">Est. travel time</h3>
-            <p class="ff-serif uppercase">3 years</p>
-        </div>
-        </div>
-    </article>
-
-    <!-- Titan -->
-    <article hidden class="destination-info flow" id="titan-tab" role="tabpanel" tabindex="@(targetPanel == 1 ? 0 : -1)">
-        <h2 class="fs-800 ff-serif uppercase">Titan</h2>
-        
-    
-        <p>The only moon known to have a dense atmosphere other than Earth, Titan 
-            is a home away from home (just a few hundred degrees colder!). As a 
-            bonus, you get striking views of the Rings of Saturn.</p>
-
-        <div class="destination-meta flex">
-        <div>
-            <h3 class="text-accent fs-200 uppercase">Avg. Distance</h3>
-            <p class="ff-serif uppercase">1.6 bil. km</p>
-        </div>
-        <div>
-            <h3 class="text-accent fs-200 uppercase">Est. travel time</h3>
-            <p class="ff-serif uppercase">7 years</p>
-        </div>
-        </div>
-    </article>
 
  </main>
 
