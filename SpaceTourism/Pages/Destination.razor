@@ -10,20 +10,41 @@
             <DestinationInfo SpaceDestination=@location/>
         }
     }*@
-     <img src="/assets/destination/image-moon.png" id="moon-image" alt="the moon">
-        <img class="hidden" src="/assets/destination/image-mars.png" id="mars-image"  alt="mars"/>
-        <img class="hidden"  src="/assets/destination/image-europa.png" id="europa-image" alt="europa"/>
-        <img class="hidden" src="/assets/destination/image-titan.png" id="titan-image"  alt="titan"/>
- 
+            @foreach(SpaceDestination destination in Destinations)
+        { 
+            <img class="@(destination.Index != targetPanel? "hidden": "")" src="@destination.Image" id="@destination.Name.ToLower()-image" alt="@destination.ImageAlt">
+        }
     <div role="tablist" @onkeydown="ChangeTabFocus" class="tab-list underline-indicators flex">
-        <button @onclick="ChangeTabPanel" aria-selected="@(tabPosition == 0 ? "true" : "false")" role="tab" tabindex="@(tabPosition == 0 ? 0 : -1)" aria-controls="moon-tab" data-image="moon-image" data-index="0" class="uppercase text-accent letter-spacing-2 ff-sans-cond">Moon</button>
-        <button aria-selected="@(tabPosition == 1 ? "true" : "false")"  role="tab" tabindex="@(tabPosition == 1 ? 0 : -1)" aria-controls="mars-tab" data-image="mars-image" data-index="1" class="uppercase text-accent letter-spacing-2 ff-sans-cond">Mars</button>
-        <button aria-selected="@(tabPosition == 2 ? "true" : "false")"  role="tab" tabindex="@(tabPosition == 2 ? 0 : -1)" aria-controls="europa-tab" data-image="europa-image" data-index="2" class="uppercase text-accent letter-spacing-2 ff-sans-cond">Europa</button>
-        <button aria-selected="@(tabPosition == 3 ? "true" : "false")"  role="tab" tabindex="@(tabPosition == 3 ? 0 : -1)" aria-controls="titan-tab" data-image="titan-image" data-index="3" class="uppercase text-accent letter-spacing-2 ff-sans-cond">Titan</button>
+        @foreach(SpaceDestination destination in Destinations)
+        { 
+                    <button @onclick="args => ChangeTabPanel(destination.Index, args)"  aria-selected="@(tabPosition == destination.Index ? "true" : "false")" role="tab" tabindex="@(tabPosition == destination.Index ? 0 : -1)" aria-controls="@destination.Name.ToLower()-tab" data-image="@destination.Name.ToLower()-image"  class="uppercase text-accent letter-spacing-2 ff-sans-cond">@destination.Name</button>
+        }
     </div>
+    @foreach(SpaceDestination destination in Destinations)
+    {
+        bool IsVisible = destination.Index == targetPanel;
 
+        <article  class="destination-info flow @(!IsVisible ? "hidden": "")" id="@destination.Name.ToLower()-tab" role="tabpanel"  tabindex="@(IsVisible ? 0 : -1)">
+        <h2 class="fs-800 ff-serif uppercase">@destination.Name</h2>
+        
+    
+        <p>@destination.Description</p>
+
+        <div class="destination-meta flex">
+        <div>
+            <h3 class="text-accent fs-200 uppercase">Avg. Distance</h3>
+            <p class="ff-serif uppercase">@destination.Distance</p>
+        </div>
+        <div>
+            <h3 class="text-accent fs-200 uppercase">Est. travel time</h3>
+            <p class="ff-serif uppercase">@destination.Travel</p>
+        </div>
+        </div>
+    </article>
+    }
+   
     <!-- Moon -->
-    <article class="destination-info flow" id="moon-tab" role="tabpanel"  tabindex="@(targetPanel == 0 ? 0 : -1)">
+    <article hidden class="destination-info flow" id="moon-tab" role="tabpanel"  tabindex="@(targetPanel == 0 ? 0 : -1)">
         <h2 class="fs-800 ff-serif uppercase">Moon</h2>
         
     
