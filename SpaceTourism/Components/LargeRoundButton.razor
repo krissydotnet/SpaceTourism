@@ -1,6 +1,10 @@
-﻿<a href="#" class="large-button uppercase ff-serif fs-600 bg-white text-dark">@ChildContent</a>
-
+﻿<NavLink class="large-button uppercase ff-serif fs-600 bg-white text-dark" href="@Location" >
+    @ChildContent
+</NavLink>
 @code {
     [Parameter]
     public RenderFragment ChildContent { get; set; }
+
+    [Parameter]
+    public string Location { get; set; }
 }
