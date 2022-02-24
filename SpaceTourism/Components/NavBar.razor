@@ -2,22 +2,22 @@
         <nav>
             <ul id="primary-navigation" data-visible="@(IsVisible?"true":"false")" class="primary-navigation underline-indicators flex">
                <li class="nav-item @GetActive("", NavLinkMatch.All)">
-                <NavLink class="nav-link uppercase text-white letter-spacing-2" href="" Match="NavLinkMatch.All">
+                <NavLink class="nav-link uppercase text-white letter-spacing-2" tabindex=0 href="" Match="NavLinkMatch.All">
                        <span aria-hidden="true">00</span>Home
                 </NavLink>
                 </li>
                 <li class="nav-item @GetActive("destination", NavLinkMatch.All)">
-               <NavLink class="nav-link uppercase text-white letter-spacing-2" href="destination" >
+               <NavLink class="nav-link uppercase text-white letter-spacing-2" tabindex=0 href="destination" >
                        <span aria-hidden="true">01</span>Destination
                 </NavLink>
                 </li>
                 <li class="nav-item @GetActive("crew", NavLinkMatch.All)">
-               <NavLink class="nav-link uppercase text-white letter-spacing-2" href="crew" >
+               <NavLink class="nav-link uppercase text-white letter-spacing-2" tabindex=0 href="crew" >
                        <span aria-hidden="true">02</span>Crew
                 </NavLink>
                 </li>
                 <li class="nav-item @GetActive("technology", NavLinkMatch.All)">
-               <NavLink class="nav-link uppercase text-white letter-spacing-2" href="technology" >
+               <NavLink class="nav-link uppercase text-white letter-spacing-2" tabindex=0 href="technology" >
                        <span aria-hidden="true">03</span>Technology
                 </NavLink>
                 </li>         
