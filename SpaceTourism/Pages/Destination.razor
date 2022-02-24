@@ -1,24 +1,31 @@
 ﻿@page "/destination"
+@inject HttpClient Http
+
  <BodyElement CssClass="destination" />
  <main id="main" class="grid-container grid-container--destination flow">
       <NumberedTitle TitleNumber=1>Pick your destination</NumberedTitle>
-
+      @if (Destinations == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
         @foreach(SpaceDestination destination in Destinations)
         { 
             bool IsVisible = destination.Index == targetPanel;
         if (IsVisible)
         {
-            <img src="@destination.Image" id="@destination.Name.ToLower()-image" alt="@destination.ImageAlt">
+            <img src="@destination.Image" id="@destination.Location.ToLower()-image" alt="@destination.ImageAlt">
 
             <div role="tablist" @onkeydown="ChangeTabFocus" class="tab-list underline-indicators flex">
                 @foreach (SpaceDestination tab in Destinations)
                 {
-                    <button @onclick="() => ChangeTabPanel(tab.Index)"  aria-selected="@(tabPosition == tab.Index ? "true" : "false")" role="tab" tabindex="0" aria-controls="@tab.Name.ToLower()-tab" data-image="@tab.Name.ToLower()-image"  class="uppercase text-accent letter-spacing-2 ff-sans-cond">@tab.Name</button>
+                    <button @onclick="() => ChangeTabPanel(tab.Index)"  aria-selected="@(tabPosition == tab.Index ? "true" : "false")" role="tab" tabindex="0" aria-controls="@tab.Location.ToLower()-tab" data-image="@tab.Location.ToLower()-image"  class="uppercase text-accent letter-spacing-2 ff-sans-cond">@tab.Location</button>
                 }
             </div>
 
-            <article  class="destination-info flow"  id="@destination.Name.ToLower()-tab" role="tabpanel"  tabindex="0">
-                <h2 class="fs-800 ff-serif uppercase">@destination.Name</h2>
+            <article  class="destination-info flow"  id="@destination.Location.ToLower()-tab" role="tabpanel"  tabindex="0">
+                <h2 class="fs-800 ff-serif uppercase">@destination.Location</h2>
                 <p>@destination.Description</p>
                 <div class="destination-meta flex">
                 <div>
@@ -33,8 +40,8 @@
             </article>
             }
     }
-   
     
-
+}
  </main>
 
+ 

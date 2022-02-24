@@ -1,9 +1,18 @@
 ﻿@page "/technology"
+@inject HttpClient Http
+
  <BodyElement CssClass="technology" />
   <main id="main" class="grid-container grid-container--technology flow">
 
 
     <NumberedTitle TitleNumber=3>Space launch 101</NumberedTitle>
+
+     @if (Terms == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
     @foreach(Terminology term in Terms)
     {
         bool IsVisible = term.Index == targetPanel;
@@ -21,22 +30,20 @@
             <div role="tablist" @onkeydown="ChangeTabFocus" class="number-list flex">
                 @foreach (Terminology tab in Terms)
                 {
-                    <button @onclick="() => ChangeTabPanel(tab.Index)"  aria-selected="@(tabPosition == tab.Index ? "true" : "false")" role="tab" tabindex="0" aria-controls="@tab.ReplaceSpaces(tab.Term)-tab" data-image="@tab.ReplaceSpaces(tab.Term)-image">@(tab.Index + 1)</button>
+                    <button @onclick="() => ChangeTabPanel(tab.Index)"  aria-selected="@(tabPosition == tab.Index ? "true" : "false")" role="tab" tabindex="0" aria-controls="@tab.Index-tab" data-image="@tab.Index-image">@(tab.Index + 1)</button>
                 }
             </div>
-            <article class="technology-details flow flow--space-small" id="@term.ReplaceSpaces(term.Term)-tab" role="tabpanel" tabindex="0">
+            <article class="technology-details flow flow--space-small" id="@term.Index-tab" role="tabpanel" tabindex="0">
                 <header class="flow">
             <h2 class="text-accent ff-seriff uppercase">The Terminology ...</h2>
             <p class="fs-700 uppercase ff-serif">@term.Term</p>
         </header>
         <p class="text-accent"> 
             @term.Definition</p>
-
-      
-    </article>
+        </article>
+        }
     }
-    }
-   
+   }
   </main>
 
   

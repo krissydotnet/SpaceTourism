@@ -1,3 +1,4 @@
+using System.Net.Http.Json;
 using Microsoft.AspNetCore.Components.Web;
 using SpaceTourism.Models;
 
@@ -5,48 +6,42 @@ namespace SpaceTourism.Pages
 {
     public partial class Destination
     {
-
-        public List<SpaceDestination> Destinations = new List<SpaceDestination>() {
-            new SpaceDestination{Index=0, Name = "Moon", Description = "See our planet as you’ve never seen it before. A perfect relaxing trip away to help regain perspective and come back refreshed. While you’re there, take in some history by visiting the Luna 2 and Apollo 11 landing sites", Image = "./assets/destination/image-moon.png", ImageAlt="the moon", Distance = "384,400 km", Travel = "3 days"}, 
-            new SpaceDestination{Index=1, Name = "Mars", Description = "Don’t forget to pack your hiking boots. You’ll need them to tackle Olympus Mons, the tallest planetary mountain in our solar system. It’s two and a half times the size of Everest!", Image = "./assets/destination/image-mars.png", ImageAlt="Mars", Distance = "225 mil. km", Travel = "9 months"}, 
-            new SpaceDestination{Index=2, Name = "Europa", Description = "The smallest of the four Galilean moons orbiting Jupiter, Europa is a winter lover’s dream. With an icy surface, it’s perfect for a bit of ice skating, curling, hockey, or simple relaxation in your snug wintery cabin.", Image = "./assets/destination/image-europa.png", ImageAlt="Europa", Distance = "628 mil. km", Travel = "3 years"}, 
-            new SpaceDestination{Index=3, Name = "Titan", Description = "The only moon known to have a dense atmosphere other than Earth, Titan is a home away from home (just a few hundred degrees colder!). As a bonus, you get striking views of the Rings of Saturn.", Image = "./assets/destination/image-titan.png", Distance = "1.6 bil. km",ImageAlt="Titan", Travel = "7 years"}};
-
         int tabPosition = 0;
         int targetPanel = 0;
-
-
+        private List<SpaceDestination>? Destinations;
+        protected override async Task OnInitializedAsync()
+        {
+            var randomid = Guid.NewGuid().ToString();
+            var url_get = $"data/destination.json?{randomid}";
+            Destinations = await Http.GetFromJsonAsync<List<SpaceDestination>>(url_get);
+        }
 
         private void ChangeTabFocus(KeyboardEventArgs e)
         {
-            if (e.Key == "ArrowRight" )
+            if (e.Key == "ArrowRight")
             {
-                 tabPosition++;
-                if(tabPosition >= Destinations.Count)
+                tabPosition++;
+                if (tabPosition >= Destinations.Count)
                 {
                     tabPosition = 0;
-                    
                 }
-            } else if(e.Key == "ArrowLeft") {
+            }
+            else if (e.Key == "ArrowLeft")
+            {
                 tabPosition--;
-                if(tabPosition < 0)
+                if (tabPosition < 0)
                 {
                     tabPosition = Destinations.Count - 1;
                 }
             }
 
             targetPanel = tabPosition;
-            
         }
 
         private void ChangeTabPanel(int index)
         {
-            
             tabPosition = index;
             targetPanel = tabPosition;
         }
-
-
-
     }
 }

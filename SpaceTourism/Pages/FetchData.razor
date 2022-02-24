@@ -1,0 +1,47 @@
+﻿@page "/fetchdata"
+@inject HttpClient Http
+
+<PageTitle>Weather forecast</PageTitle>
+
+<h1>Space Destinations</h1>
+
+<p>This component demonstrates fetching data from the server.</p>
+
+@if (destinations == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+ <table class="table">
+        <thead>
+            <tr>
+                <th>Index</th>
+                <th>Name</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var destinations in destinations)
+            {
+                <tr>
+                    <td>@destinations.Index</td>
+                    <td>@destinations.Term</td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<Terminology>? destinations;
+        protected override async Task OnInitializedAsync()
+        {
+            
+            destinations = await Http.GetFromJsonAsync<List<Terminology>>("data/tech.json");
+        }
+
+      
+    
+}

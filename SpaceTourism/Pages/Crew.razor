@@ -1,10 +1,17 @@
 ﻿@page "/crew"
+@inject HttpClient Http
+
  <BodyElement CssClass="crew" />
 
    <main id="main" class="grid-container grid-container--crew flow">
 
       <NumberedTitle TitleNumber=2>Meet your crew</NumberedTitle>
-
+       @if (CrewMembers == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
     @foreach(Member crewmember in CrewMembers)
     {
         bool IsVisible = crewmember.Index == targetPanel;
@@ -16,11 +23,11 @@
                        role="tab" tabindex="@(tabPosition == tab.Index ? 0 : -1)" aria-controls="@tab.Index-tab">
                        <span class="sr-only">@tab.Title</span></button>
                 }
-            </div>
+        </div>
         <article class="crew-details flow flow--space-small @(!IsVisible ? "hidden": "")" id="@crewmember.Index-tab" role="tabpanel" tabindex="@(IsVisible ? 0 : -1)">
             <header class="flow">
                 <h2 class="fs-600 ff-seriff uppercase">@crewmember.Title</h2>
-                <p class="fs-700 uppercase ff-serif">@crewmember.Name</p>
+                <p class="fs-700 uppercase ff-serif">@crewmember.MemberName</p>
             </header>
             <p>@crewmember.Description</p>
         </article>
@@ -29,6 +36,6 @@
         </div>
         }
     }
-   
+   }
   </main>
   
