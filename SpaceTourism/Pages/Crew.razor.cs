@@ -16,6 +16,7 @@ namespace SpaceTourism.Pages
             var randomid = Guid.NewGuid().ToString();
             var url_get = $"data/crew.json?{randomid}";
             CrewMembers = await Http.GetFromJsonAsync<List<Member>>(url_get);
+            //CrewMembers = await FetchCrewContentService.GetAll();
         }
 
         private void ChangeTabFocus(KeyboardEventArgs e)

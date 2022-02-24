@@ -22,11 +22,13 @@ else
                 <img class="portrait" src="@term.ImagePortrait"  alt="@term.ImageAlt"/>
                 <img class="landscape" src="@term.ImageLandscape" alt="@term.ImageAlt"/>
             </div>
-            <div class="number-list flex" role="tablist">
-                <button aria-selected="true" role="tab" tabindex="0" aria-controls="vehicle-tab" data-image="vehicle-image">1</button>
-                <button aria-selected="false" role="tab" tabindex="-1" aria-controls="capsule-tab" data-image="capsule-image">2</button>
-                <button aria-selected="false" role="tab" tabindex="-1" aria-controls="spaceport-tab" data-image="spaceport-image">3</button>
+             <div role="tablist" @onkeydown="ChangeTabFocus" class="number-list flex">
+                @foreach (Terminology tab in Terms)
+                {
+                    <button @onclick="() => ChangeTabPanel(tab.Index)"  aria-selected="@(tabPosition == tab.Index ? "true" : "false")" role="tab" tabindex="0" aria-controls="@tab.Index-tab" data-image="@tab.Index-image">@(tab.Index+1)</button>
+                }
             </div>
+
             <div role="tablist" @onkeydown="ChangeTabFocus" class="number-list flex">
                 @foreach (Terminology tab in Terms)
                 {
