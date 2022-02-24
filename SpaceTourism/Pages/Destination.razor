@@ -1,21 +1,17 @@
 ﻿@page "/destination"
-@inject HttpClient Http
+@inject IDestinationDataService destinationDataService
 
  <BodyElement CssClass="destination" />
  <main id="main" class="grid-container grid-container--destination flow">
       <NumberedTitle TitleNumber=1>Pick your destination</NumberedTitle>
-      @if (Destinations == null)
+      @if (TargetDestination == null)
 {
     <p><em>Loading...</em></p>
 }
 else
 {
-        @foreach(SpaceDestination destination in Destinations)
-        { 
-            bool IsVisible = destination.Index == targetPanel;
-        if (IsVisible)
-        {
-            <img src="@destination.Image" id="@destination.Location.ToLower()-image" alt="@destination.ImageAlt">
+
+            <img src="@TargetDestination.Image" id="@TargetDestination.Location.ToLower()-image" alt="@TargetDestination.ImageAlt">
 
             <div role="tablist" @onkeydown="ChangeTabFocus" class="tab-list underline-indicators flex">
                 @foreach (SpaceDestination tab in Destinations)
@@ -24,22 +20,21 @@ else
                 }
             </div>
 
-            <article  class="destination-info flow"  id="@destination.Location.ToLower()-tab" role="tabpanel"  tabindex="0">
-                <h2 class="fs-800 ff-serif uppercase">@destination.Location</h2>
-                <p>@destination.Description</p>
+            <article  class="destination-info flow"  id="@TargetDestination.Location.ToLower()-tab" role="tabpanel"  tabindex="0">
+                <h2 class="fs-800 ff-serif uppercase">@TargetDestination.Location</h2>
+                <p>@TargetDestination.Description</p>
                 <div class="destination-meta flex">
                 <div>
                     <h3 class="text-accent fs-200 uppercase">Avg. Distance</h3>
-                    <p class="ff-serif uppercase">@destination.Distance</p>
+                    <p class="ff-serif uppercase">@TargetDestination.Distance</p>
                 </div>
                 <div>
                     <h3 class="text-accent fs-200 uppercase">Est. travel time</h3>
-                    <p class="ff-serif uppercase">@destination.Travel</p>
+                    <p class="ff-serif uppercase">@TargetDestination.Travel</p>
                 </div>
                 </div>
             </article>
-            }
-    }
+
     
 }
  </main>

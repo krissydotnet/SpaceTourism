@@ -1,4 +1,5 @@
 using System.Net.Http.Json;
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using SpaceTourism.Models;
 
@@ -8,20 +9,23 @@ namespace SpaceTourism.Pages
     {
         int tabPosition = 0;
         int targetPanel = 0;
-        private List<SpaceDestination>? Destinations;
+        private IEnumerable<SpaceDestination>? Destinations;
+        private SpaceDestination? TargetDestination;
+
+
         protected override async Task OnInitializedAsync()
         {
-            var randomid = Guid.NewGuid().ToString();
-            var url_get = $"data/destination.json?{randomid}";
-            Destinations = await Http.GetFromJsonAsync<List<SpaceDestination>>(url_get);
-        }
 
+            Destinations = await destinationDataService.GetAll();
+            TargetDestination = Destinations.Where(x => x.Index == targetPanel).FirstOrDefault();
+        }
+        
         private void ChangeTabFocus(KeyboardEventArgs e)
         {
             if (e.Key == "ArrowRight")
             {
                 tabPosition++;
-                if (tabPosition >= Destinations.Count)
+                if (tabPosition >= Destinations.Count())
                 {
                     tabPosition = 0;
                 }
@@ -31,17 +35,25 @@ namespace SpaceTourism.Pages
                 tabPosition--;
                 if (tabPosition < 0)
                 {
-                    tabPosition = Destinations.Count - 1;
+                    tabPosition = Destinations.Count() - 1;
                 }
             }
 
-            targetPanel = tabPosition;
+            UpdatePanel();
         }
 
         private void ChangeTabPanel(int index)
         {
             tabPosition = index;
+            UpdatePanel();
+        }
+        private void UpdatePanel()
+        {
             targetPanel = tabPosition;
+            if (Destinations != null)
+            {
+                TargetDestination = Destinations.Where(x => x.Index == targetPanel).FirstOrDefault();
+            }
         }
     }
 }

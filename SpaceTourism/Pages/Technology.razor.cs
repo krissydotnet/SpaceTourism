@@ -1,5 +1,5 @@
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
-using System.Net.Http.Json;
 using SpaceTourism.Models;
 
 namespace SpaceTourism.Pages
@@ -9,20 +9,23 @@ namespace SpaceTourism.Pages
         int tabPosition = 0;
         int targetPanel = 0;
 
-        private List<Terminology>? Terms;
+        private IEnumerable<Terminology>? Terms;
+        private Terminology? TargetTerm;
+
+
         protected override async Task OnInitializedAsync()
         {
-            var randomid = Guid.NewGuid().ToString();
-            var url_get = $"data/tech.json?{randomid}";
-            Terms = await Http.GetFromJsonAsync<List<Terminology>>(url_get);
-        }
 
+            Terms = await terminologyDataService.GetAll();
+            TargetTerm = Terms.Where(x=> x.Index == targetPanel).FirstOrDefault();
+        }
+       
         private void ChangeTabFocus(KeyboardEventArgs e)
         {
             if (e.Key == "ArrowRight")
             {
                 tabPosition++;
-                if (tabPosition >= Terms.Count)
+                if (tabPosition >= Terms.Count())
                 {
                     tabPosition = 0;
                 }
@@ -32,17 +35,25 @@ namespace SpaceTourism.Pages
                 tabPosition--;
                 if (tabPosition < 0)
                 {
-                    tabPosition = Terms.Count - 1;
+                    tabPosition = Terms.Count() - 1;
                 }
             }
 
-            targetPanel = tabPosition;
+            UpdatePanel();
         }
 
         private void ChangeTabPanel(int index)
         {
             tabPosition = index;
+            UpdatePanel();
+        }
+        private void UpdatePanel()
+        {
             targetPanel = tabPosition;
+            if (Terms != null)
+            {
+                TargetTerm = Terms.Where(x => x.Index == targetPanel).FirstOrDefault();
+            }
         }
     }
 }

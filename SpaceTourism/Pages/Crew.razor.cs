@@ -1,4 +1,5 @@
 using System.Net.Http.Json;
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using SpaceTourism.Models;
 
@@ -10,21 +11,24 @@ namespace SpaceTourism.Pages
         int tabPosition = 0;
         int targetPanel = 0;
 
-        private List<Member>? CrewMembers;
+        private IEnumerable<Member>? CrewMembers;
+        private Member? TargetCrew;
+
+
+
         protected override async Task OnInitializedAsync()
         {
-            var randomid = Guid.NewGuid().ToString();
-            var url_get = $"data/crew.json?{randomid}";
-            CrewMembers = await Http.GetFromJsonAsync<List<Member>>(url_get);
-            //CrewMembers = await FetchCrewContentService.GetAll();
+            CrewMembers = await crewDataService.GetAll();
+            TargetCrew = CrewMembers.Where(x => x.Index == targetPanel).FirstOrDefault();
         }
+
 
         private void ChangeTabFocus(KeyboardEventArgs e)
         {
             if (e.Key == "ArrowRight")
             {
                 tabPosition++;
-                if (tabPosition >= CrewMembers.Count)
+                if (tabPosition >= CrewMembers.Count())
                 {
                     tabPosition = 0;
                 }
@@ -34,17 +38,26 @@ namespace SpaceTourism.Pages
                 tabPosition--;
                 if (tabPosition < 0)
                 {
-                    tabPosition = CrewMembers.Count - 1;
+                    tabPosition = CrewMembers.Count() - 1;
                 }
             }
+            UpdatePanel();
 
-            targetPanel = tabPosition;
+
         }
 
         private void ChangeTabPanel(int index)
         {
             tabPosition = index;
+            UpdatePanel();
+        }
+        private void UpdatePanel()
+        {
             targetPanel = tabPosition;
+            if (CrewMembers != null)
+            {
+                TargetCrew = CrewMembers.Where(x => x.Index == targetPanel).FirstOrDefault();
+            }
         }
     }
 }

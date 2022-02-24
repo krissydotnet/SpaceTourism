@@ -1,5 +1,5 @@
 ﻿@page "/technology"
-@inject HttpClient Http
+@inject ITerminologyDataService terminologyDataService
 
  <BodyElement CssClass="technology" />
   <main id="main" class="grid-container grid-container--technology flow">
@@ -7,44 +7,34 @@
 
     <NumberedTitle TitleNumber=3>Space launch 101</NumberedTitle>
 
-     @if (Terms == null)
+     @if (TargetTerm == null)
 {
     <p><em>Loading...</em></p>
 }
 else
 {
-    @foreach(Terminology term in Terms)
-    {
-        bool IsVisible = term.Index == targetPanel;
-        if (IsVisible)
-        {
+
             <div class="images" id="vehicle-image">
-                <img class="portrait" src="@term.ImagePortrait"  alt="@term.ImageAlt"/>
-                <img class="landscape" src="@term.ImageLandscape" alt="@term.ImageAlt"/>
+                <img class="portrait" src="@TargetTerm.ImagePortrait"  alt="@TargetTerm.ImageAlt"/>
+                <img class="landscape" src="@TargetTerm.ImageLandscape" alt="@TargetTerm.ImageAlt"/>
             </div>
-             <div role="tablist" @onkeydown="ChangeTabFocus" class="number-list flex">
+             <div role="tablist"  @onkeydown="ChangeTabFocus" class="number-list flex">
                 @foreach (Terminology tab in Terms)
                 {
                     <button @onclick="() => ChangeTabPanel(tab.Index)"  aria-selected="@(tabPosition == tab.Index ? "true" : "false")" role="tab" tabindex="0" aria-controls="@tab.Index-tab" data-image="@tab.Index-image">@(tab.Index+1)</button>
                 }
             </div>
 
-            <div role="tablist" @onkeydown="ChangeTabFocus" class="number-list flex">
-                @foreach (Terminology tab in Terms)
-                {
-                    <button @onclick="() => ChangeTabPanel(tab.Index)"  aria-selected="@(tabPosition == tab.Index ? "true" : "false")" role="tab" tabindex="0" aria-controls="@tab.Index-tab" data-image="@tab.Index-image">@(tab.Index + 1)</button>
-                }
-            </div>
-            <article class="technology-details flow flow--space-small" id="@term.Index-tab" role="tabpanel" tabindex="0">
+
+            <article class="technology-details flow flow--space-small" id="@TargetTerm.Index-tab" role="tabpanel" tabindex="0">
                 <header class="flow">
             <h2 class="text-accent ff-seriff uppercase">The Terminology ...</h2>
-            <p class="fs-700 uppercase ff-serif">@term.Term</p>
+            <p class="fs-700 uppercase ff-serif">@TargetTerm.Term</p>
         </header>
         <p class="text-accent"> 
-            @term.Definition</p>
+            @TargetTerm.Definition</p>
         </article>
-        }
-    }
+
    }
   </main>
 
